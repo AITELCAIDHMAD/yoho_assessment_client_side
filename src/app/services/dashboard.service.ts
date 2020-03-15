@@ -6,6 +6,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class DashboardService {
     private jwtToken: string;
+    HOST = 'https://yoho-backend.herokuapp.com';
+
+
     constructor(private http: HttpClient) { }
 
     loadToken() {
@@ -22,7 +25,7 @@ export class DashboardService {
         const headers
             = new HttpHeaders();
         headers.append('authorization', this.jwtToken);
-        return this.http.get('/api/report/data1/' + date, {
+        return this.http.get(this.HOST + '/api/report/data1/' + date, {
             headers: new
                 HttpHeaders({ 'authorization': this.jwtToken })
         });
@@ -33,7 +36,7 @@ export class DashboardService {
         const headers
             = new HttpHeaders();
         headers.append('authorization', this.jwtToken);
-        return this.http.get('/api/report/data2/' + date, {
+        return this.http.get(this.HOST + '/api/report/data2/' + date, {
             headers: new
                 HttpHeaders({ 'authorization': this.jwtToken })
         });
@@ -45,7 +48,7 @@ export class DashboardService {
         const headers
             = new HttpHeaders();
         headers.append('authorization', this.jwtToken);
-        return this.http.get('/api/report/data3/' + date, {
+        return this.http.get(this.HOST + '/api/report/data3/' + date, {
             headers: new
                 HttpHeaders({ 'authorization': this.jwtToken })
         });

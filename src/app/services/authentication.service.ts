@@ -7,9 +7,10 @@ export class AuthenticationService {
 
     private jwtToken: string;
     private roles: Array<any> = [];
+    HOST = "https://yoho-backend.herokuapp.com";
     constructor(private http: HttpClient) { }
     login(user) {
-        return this.http.post('/login', user, {
+        return this.http.post(this.HOST + '/login', user, {
             observe: 'response'
         });
     }
