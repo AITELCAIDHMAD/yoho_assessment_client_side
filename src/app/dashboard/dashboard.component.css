@@ -1,0 +1,88 @@
+.dashboard-div {
+    width: 90%;
+    text-align: center;
+    padding-top: 20px;
+    background-color: aliceblue;
+}
+
+.button-validate {
+    padding: 20px;
+}
+
+.checkbox-div {
+    text-align: left;
+    padding-left: 20px;
+    padding-bottom: 10px;
+}
+
+canvas {
+    border: 1px solid #000;
+}
+
+.log-out-button {
+    position: relative;
+    right: -75px;
+    top: -4px;
+}
+
+td:nth-child(1) {
+    padding-right: 20px;
+}
+
+
+.logout-button{
+  position: relative;
+  right:-400px;
+}
+
+.top-box{
+    padding:10px 10px 10px 60px;
+    margin:10px 10px 10px 60px;
+}
+
+.property-item{
+ padding:4px;
+
+}
+.property-item-ol{
+
+    text-align:left;
+
+}
+
+#myChart{
+    position: relative;
+    margin:0 auto;
+    margin:10px 0px 20px 50px;
+
+}
+
+.style1{
+    font-weight: bold;
+}
+
+.style2{
+    font-weight: bold;
+
+    color: blue;
+}
+
+.date-style{
+text-align:left;
+}
+
+
+dp-date-picker{
+    border:3px solid blue;
+    margin-left: 20px;
+}
+
+.temperature-img{
+    width:50px;
+    height: 50px;
+    margin-left:40px;
+}
+
+td{
+    text-align: left;
+}

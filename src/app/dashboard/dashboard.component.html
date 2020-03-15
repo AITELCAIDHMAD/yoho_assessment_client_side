@@ -1,0 +1,112 @@
+<div class="limiter">
+
+    <div class="container-login100">
+
+        <div class="dashboard-div">
+
+            <h4>Ogel Dashboard
+                <button class="btn btn-light log-out-button logout-button" (click)="logOut()">Log out</button>
+            </h4>
+
+
+            <div class="row">
+                <div class="col-11 top-box shadow-sm p-3 mb-5 bg-white rounded">
+
+                    <div class="date-style">
+                        <span class="style1"> Date FROM : </span>{{dateTimeFrom}}
+                        <dp-date-picker placeholder=" Select other Date" [(ngModel)]="selectedDate"
+                            [config]="datePickerConfig" (onChange)="onChangeDate()">
+                        </dp-date-picker>
+                        <hr>
+                        <span class="style1"> Date TO : </span>{{dateTimeTo}}
+                    </div>
+
+
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-3 top-box shadow-sm p-3 mb-5 bg-white rounded" *ngFor="let item of dataList">
+
+
+                    <span class="style1">
+                        {{item.machine}}
+
+                        <img class="img temperature-img" src="../../assets/images/icons/{{item.color}}.svg">
+                    </span>
+
+
+                    <table class="table">
+                        <tr>
+                            <td><span class="style1"> Net production </span></td>
+                            <td>
+                                <span class="style2">{{item.production }}</span></td>
+
+                        <tr>
+                            <td> <span class="style1"> Scrap Percentage </span> </td>
+                            <td><span class="style2">{{item.scrap_PERCENTAGE  | number:'1.2-2'}} %</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><span class="style1">Downtime Percentage
+                                </span></td>
+                            <td><span class="style2">{{item.downtime_PERCENTAGE | number:'1.2-2'}} % </span>
+                            </td>
+                        </tr>
+
+
+
+                        <tr>
+                            <td> <span class="style1">Performance Percentage
+                                </span></td>
+                            <td><span class="style2">{{item.performance | number:'1.2-2'}} % </span>
+                            </td>
+                        </tr>
+
+
+
+
+                        <tr>
+                            <td> <span class="style1">Availability Percentage
+                                </span></td>
+                            <td><span class="style2">{{item.availability | number:'1.2-2'}} %</span>
+                            </td>
+                        </tr>
+
+
+
+                        <tr>
+                            <td><span class="style1">Quality Percentage
+                                </span></td>
+                            <td><span class="style2">{{item.quality | number:'1.2-2'}} %</span>
+                            </td>
+                        </tr>
+
+
+
+
+                        <tr>
+                            <td><span class="style1">OEE Percentage
+                                </span></td>
+                            <td><span class="style2">{{item.oee | number:'1.2-2'}} %</span>
+                            </td>
+                        </tr>
+
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col-11">
+                    <canvas id="myChart" height="100"></canvas>
+
+                </div>
+            </div>
+        </div>
+    </div>
