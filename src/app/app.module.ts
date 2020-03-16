@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DashboardService } from './services/dashboard.service';
 import { DpDatePickerModule } from 'ng2-date-picker';
+import { DatePipe } from '@angular/common'
 
 const appRoutes: Routes = [
   { path: 'authentification', component: LoginComponent },
@@ -33,7 +34,7 @@ const appRoutes: Routes = [
     DpDatePickerModule
   ],
 
-  providers: [AuthenticationService, DashboardService],
+  providers: [AuthenticationService, DashboardService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

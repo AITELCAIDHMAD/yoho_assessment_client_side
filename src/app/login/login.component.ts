@@ -3,13 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { Http } from "@angular/http";
 import "rxjs/add/operator/map";
 import { Router } from "@angular/router";
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  private mode = 0;
   constructor(private authService: AuthenticationService,
     private router: Router) { }
   ngOnInit() {
@@ -26,7 +27,11 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl("/dashboard");
       },
         err => {
-          this.mode = 1;
+          Swal.fire(
+            'Error',
+            'the username or password is incorrect',
+            'error'
+          );
         })
   }
 }

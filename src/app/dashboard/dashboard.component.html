@@ -15,7 +15,7 @@
                     <div class="date-style">
                         <span class="style1"> Date FROM : </span>{{dateTimeFrom}}
                         <dp-date-picker placeholder=" Select other Date" [(ngModel)]="selectedDate"
-                            [config]="datePickerConfig" (onChange)="onChangeDate()">
+                            [config]="datePickerConfig" (onSelect)="onChangeDate()">
                         </dp-date-picker>
                         <hr>
                         <span class="style1"> Date TO : </span>{{dateTimeTo}}
@@ -37,7 +37,7 @@
                     </span>
 
 
-                    <table class="table">
+                    <table class="table table-responsive">
                         <tr>
                             <td><span class="style1"> Net production </span></td>
                             <td>
@@ -45,14 +45,14 @@
 
                         <tr>
                             <td> <span class="style1"> Scrap Percentage </span> </td>
-                            <td><span class="style2">{{item.scrap_PERCENTAGE  | number:'1.2-2'}} %</span>
+                            <td><span class="style2">{{item.scrapPercentage  | number:'1.2-2'}} %</span>
                             </td>
                         </tr>
 
                         <tr>
                             <td><span class="style1">Downtime Percentage
                                 </span></td>
-                            <td><span class="style2">{{item.downtime_PERCENTAGE | number:'1.2-2'}} % </span>
+                            <td><span class="style2">{{item.downtimePercentage | number:'1.2-2'}} % </span>
                             </td>
                         </tr>
 
@@ -103,7 +103,7 @@
 
 
             <div class="row">
-                <div class="col-11">
+                <div *ngIf="!hideChart" class="col-11">
                     <canvas id="myChart" height="100"></canvas>
 
                 </div>

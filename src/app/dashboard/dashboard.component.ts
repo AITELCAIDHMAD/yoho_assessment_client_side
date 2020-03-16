@@ -3,6 +3,8 @@ import { DashboardService } from '../services/dashboard.service';
 import * as Chart from 'chart.js';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,11 +25,10 @@ export class DashboardComponent implements OnInit {
   selectedDate: any;
   datePickerConfig = {
     format: 'YYYY-MM-DD'
-  }
+  };
+  hideChart = false;
 
-  dataNull = [];
-
-  constructor(private router: Router, private dashboardService: DashboardService, private authenticationService: AuthenticationService) {
+  constructor(public datepipe: DatePipe, private router: Router, private dashboardService: DashboardService, private authenticationService: AuthenticationService) {
 
   }
   ngOnInit(): void {
@@ -50,16 +51,16 @@ export class DashboardComponent implements OnInit {
 
       console.log('the resp2 is ');
       console.log(resp);
-      let data2: any = resp;
+      const data2: any = resp;
 
       for (const [key, value] of Object.entries(data2)) {
 
-        console.log('boucle for 2')
-        let color: any = value;
+        console.log('boucle for 2');
+        const color: any = value;
 
         this.data.get(key).color = color.split('/')[1];
       }
-      console.log('this.data2 ')
+      console.log('this.data2 ');
       console.log(this.data);
 
 
@@ -80,11 +81,11 @@ export class DashboardComponent implements OnInit {
       console.log('the resp3 is ');
       console.log(resp);
 
-      let data3: any = resp;
+      const data3: any = resp;
 
 
       for (const item of data3) {
-        console.log('boucle for 3')
+        console.log('boucle for 3');
         console.log(this.data.get(item.machine));
 
         this.data.get(item.machine)['performance'] = item.performance;
@@ -93,7 +94,7 @@ export class DashboardComponent implements OnInit {
         this.data.get(item.machine)['oee'] = item.oee;
       }
 
-      console.log('this.data3 ')
+      console.log('this.data3 ');
       console.log(this.data);
 
       this.dataList = Array.from(this.data.values());
@@ -106,79 +107,103 @@ export class DashboardComponent implements OnInit {
 
 
   getData1(date) {
+    this.dataList = [];
     this.datasets = [];
-
+    // when no data to hide previous data
     this.dashboardService.getReport1(date).subscribe(resp => {
       console.log('the resp1 is ');
       console.log(resp);
 
-      let data1: any = resp;
-      this.dateTimeFrom = data1[0].datetime_FROM;
-      this.dateTimeTo = data1[0].datetime_TO;
+      const data1: any = resp;
+      if (data1[0]) {
+        this.dateTimeFrom = data1[0].datetimeFrom;
+        this.dateTimeTo = data1[0].datetimeTo;
 
 
 
-      for (const item of data1) {
-        this.data.set(item.machine, item);
+        for (const item of data1) {
+          this.data.set(item.machine, item);
 
-        console.log(Object.values(item.listNetproductionPerHoure));
-        let color1 = 0;
-        let color2 = 0;
-        let color3 = 0;
+          console.log(Object.values(item.listNetproductionPerHoure));
+          let color1 = 0;
+          let color2 = 0;
+          let color3 = 0;
 
-        while (color1 === color2 || color1 === color3 || color3 === color2) {
-          color1 = Math.floor(Math.random() * 255) + 1;
-          color2 = Math.floor(Math.random() * 255) + 1;
-          color3 = Math.floor(Math.random() * 255) + 1;
+          while (color1 === color2 || color1 === color3 || color3 === color2) {
+            color1 = Math.floor(Math.random() * 255) + 1;
+            color2 = Math.floor(Math.random() * 255) + 1;
+            color3 = Math.floor(Math.random() * 255) + 1;
+          }
+
+
+          const color = 'rgba(' + color1 + ', ' + color2 + ', ' + color3 + ', 1)';
+
+          const dataset = {
+            label: item.machine,
+            data: Object.values(item.listNetproductionPerHoure),
+            borderColor: [color],
+            borderWidth: 1.5,
+            fill: false
+          };
+
+          this.datasets.push(dataset);
         }
+        console.log('this.data1 ');
+        console.log(this.data);
+        this.drawChart();
 
+        this.getData2(this.defaultDate);
 
-        const color = 'rgba(' + color1 + ', ' + color2 + ', ' + color3 + ', 1)';
+      } else {
+        this.hideChart = true;
 
-        const dataset = {
-          label: item.machine,
-          data: Object.values(item.listNetproductionPerHoure),
-          borderColor: [color],
-          borderWidth: 1.5,
-          fill: false
-        };
-
-        this.datasets.push(dataset);
+        Swal.fire(
+          'Error',
+          'No Data for this Date',
+          'error'
+        );
       }
-      console.log('this.data1 ')
-      console.log(this.data);
-
-      this.getData2(this.defaultDate);
-
-      this.drawChart();
-
     }, err => {
-
-
+      Swal.fire(
+        'Error',
+        'Error Occured Please Try again',
+        'error'
+      );
     });
-
   }
+
   drawChart() {
-    this.canvas = document.getElementById('myChart');
-    this.ctx = this.canvas.getContext('2d');
-    const myChart = new Chart(this.ctx, {
-      type: 'line',
-      data: {
-        labels: this.lables,
-        datasets: this.datasets
-      },
-      options: {
-        responsive: true,
-        display: false
-      }
-    });
+    this.hideChart = false;
+    setTimeout(() => {
+      this.canvas = document.getElementById('myChart');
+      this.ctx = this.canvas.getContext('2d');
+
+      const myChart = new Chart(this.ctx, {
+        type: 'line',
+        data: {
+          labels: this.lables,
+          datasets: this.datasets
+        },
+        options: {
+          responsive: true,
+          display: false
+        }
+      });
+
+    }, 1000);
+
+
   }
 
 
   onChangeDate() {
-    console.log('onChangeDate => ' + this.selectedDate);
+
     if (this.selectedDate) {
-      this.getData1(this.selectedDate);
+      const date = new Date(this.selectedDate);
+      const formatDate = this.datepipe.transform(date, 'yyyy-MM-dd');
+      console.log('onChangeDate => ' + formatDate);
+
+      this.getData1(formatDate);
     }
   }
 
@@ -186,6 +211,6 @@ export class DashboardComponent implements OnInit {
 
   logOut() {
     this.authenticationService.logOut();
-    this.router.navigateByUrl("/authentification");
+    this.router.navigateByUrl('/authentification');
   }
 }
